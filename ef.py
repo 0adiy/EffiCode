@@ -65,6 +65,6 @@ def get_data(input: str, filename: str) -> dict:
     return response.json()
 
 
-output = get_data('print("hello")', "xyz.py")
+output = get_data(content, filename)
 output = output["stdout"]
 print(output)
