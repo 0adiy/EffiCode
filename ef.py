@@ -29,7 +29,6 @@ def ext_to_lang(file_extension):
             return "javascript"
         case "cs":
             return "csharp"
-        
 
 
 def get_data(input: str, filename: str) -> dict:
