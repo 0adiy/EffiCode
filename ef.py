@@ -65,6 +65,9 @@ def get_data(input: str, filename: str) -> dict:
     return response.json()
 
 
-output = get_data('print("hello")', "xyz.py")
-output = output["stdout"]
-print(output)
+output = get_data(content, filename)
+opstd = output["stdout"]
+error=output["stderr"]
+if(opstd): print(opstd)
+if(error): print(error)
+print("Execution Time : ",output["executionTime"])
