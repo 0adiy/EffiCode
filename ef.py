@@ -66,5 +66,8 @@ def get_data(input: str, filename: str) -> dict:
 
 
 output = get_data(content, filename)
-output = output["stdout"]
-print(output)
+opstd = output["stdout"]
+error=output["stderr"]
+if(opstd): print(opstd)
+if(error): print(error)
+print("Execution Time : ",output["executionTime"])
