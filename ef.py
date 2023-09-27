@@ -1,17 +1,7 @@
 import requests
 import json
 import argparse
-
-# Parsing Args
-parser = argparse.ArgumentParser()
-parser.add_argument("file", help="the file to compile")
-args = parser.parse_args()
-filename = args.file
-
-# reading file
-content = ""
-with open(filename) as f:
-    content = f.read()
+from termcolor import cprint
 
 
 def ext_to_lang(file_extension):
@@ -60,14 +50,29 @@ def get_data(input: str, filename: str) -> dict:
         url,
         headers=headers,
         data=json.dumps(request_obj),
-    )
+    ).json()
 
-    return response.json()
+    return response["stdout"], response["stderr"], response["executionTime"]
 
 
-output = get_data(content, filename)
-opstd = output["stdout"]
-error=output["stderr"]
-if(opstd): print(opstd)
-if(error): print(error)
-print("Execution Time : ",output["executionTime"])
+if __name__ == "__main__":
+    # Parsing Args
+    parser = argparse.ArgumentParser()
+    parser.add_argument("file", help="the file to compile")
+    args = parser.parse_args()
+    filename = args.file
+
+    # reading file
+    content = ""
+    with open(filename) as f:
+        content = f.read()
+
+    # Getting Response
+    stdout, stderr, executionTime = get_data(content, filename)
+
+    # Printing
+    if stdout:
+        print(stdout)
+    if stderr:
+        cprint(stderr, "red")
+    cprint(f"Execution Time : {executionTime}ms", "yellow")
